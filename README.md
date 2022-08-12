@@ -84,7 +84,7 @@
 </p>
 
 <p>
-  Sinon pour voir et tester directement le livrable, c'est par <a href="https://cyrille57.github.io/orinoco/">ici<a>.
+  Sinon pour voir et tester directement le livrable, c'est par <a href="https://cyrille57.github.io/oc-5-orinoco/">ici<a>.
 </p>
 
 <h2>🙋‍♂️ À propos: </h2>
