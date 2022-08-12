@@ -1,0 +1,27 @@
+// utils:
+@import "./utils/variable_overrides";
+@import "./utils/variables";
+@import "./utils/functions";
+@import "./utils/_maps";
+@import "./utils/mixins";
+@import "./utils/placeholders";
+// vendors:
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+// base:
+@import "./base/fonts.scss";
+// components:
+@import "./components/buttons.scss";
+@import "./components/carte.scss";
+// layout:
+@import "./layout/general.scss";
+@import "./layout/navbar.scss";
+@import "./layout/jumbotron.scss";
+// pages:
+@import "./pages/index.scss";
+@import "./pages/product.scss";
+@import "./pages/panier.scss";
+@import "./pages/confirmation.scss";
+@import "./pages/panierEmpty.scss";
+// themes:
+
+

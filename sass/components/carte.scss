@@ -1,0 +1,176 @@
+// ***************************************
+// **************** Card *****************
+// ***************************************
+
+.jumbotron-title {
+    font-size: 2em;
+    text-align: center;
+}
+
+.box {
+    width: auto;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__carte {
+        width: auto;
+        margin: 3%;
+
+        border: 1px solid #e9ecef;
+
+        display: flex;
+        justify-content: space-around;
+        align-content: center;
+        flex-wrap: wrap;
+
+        box-shadow: -1px 2px 10px 3px #e9ecef inset;
+    }
+}
+
+.carte {
+
+    width: 300px;
+    height: 400px;
+    margin-top: 3%;
+    margin-bottom: 3%;
+
+    background-color: transparent;
+    border: 1px solid #e9ecef;
+
+    box-shadow: -1px 2px 10px 3px #e9ecef inset;
+
+    border-radius: 20px;
+
+    perspective: 500px;
+
+
+    &__turned {
+
+        width: 100%;
+        height: 100%;
+
+        transition: all 0.8s cubic-bezier(0.5, 0.12, 0.46, 0.88);
+        transform-style: preserve-3d;
+    }
+
+    &__front {
+        //position: absolute;
+        //z-index: 1;
+
+        display: flex;
+        flex-direction: column;
+
+        border: 2px solid #e9ecef;
+
+        //background-image: url(https://picsum.photos/262/400);
+        background-repeat: no-repeat;
+    }
+
+    &--picture {
+        width: 100%;
+        height: 396px;
+
+        position: absolute;
+        z-index: 1;
+
+        border-radius: 20px;
+
+        object-fit: cover;
+    }
+
+    &--overlay {
+        width: 100%;
+        height: 20%;
+
+        position: relative;
+        top: 317px;
+        z-index: 5;
+
+        background: rgba(255, 255, 255, 0.70);
+        border-radius: 0 0 20px 20px;
+
+        padding: 20px;
+
+        text-align: center;
+
+    }
+
+    &--title {}
+
+    &__back {
+        z-index: 5;
+        height: 500px;
+
+        //background-image: url(https://picsum.photos/261/400);
+        background-repeat: no-repeat;
+
+        transform: rotateX(180deg);
+    }
+
+    &__front,
+    &__back {
+        width: 100%;
+        height: 400px;
+
+        position: absolute;
+
+        //border: 1px solid black;
+        background-color: transparent;
+
+        border-radius: 20px;
+
+        box-shadow: transparent;
+
+        backface-visibility: hidden;
+    }
+
+    .card-header--modify{
+        border-radius: 20px;
+    }
+    .card-body {
+        width: 100%;
+        height: 385px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    &:hover &__turned {
+        transform: rotateX(180deg);
+    }
+
+    &:hover &__turned &__front {
+        //box-shadow: 0px 25px 25px -18px rgb(173, 173, 171);
+    }
+
+    &:hover &__turned &__back {
+        box-shadow: 0px 25px 25px -18px rgb(173, 173, 171);
+    }
+
+    .btn {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+    }
+
+    
+    .link{
+        //color: red;
+        //z-index: 100 ;
+        font-size: x-large;
+        font-weight: bold;
+        color: black;
+        cursor: pointer ;
+       }
+    
+
+    i {
+        font-size: 1rem;
+        color: gray;
+    }
+}
