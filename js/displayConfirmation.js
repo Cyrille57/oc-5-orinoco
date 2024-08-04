@@ -85,13 +85,18 @@ addClass(displayPriceTotal, 'font-weight-bold')
 let totalamount = 0
 // Création d'un tableau pour y mettre les tarifs:
 let tabPrice = []
+console.log("tabPrice",tabPrice)
+console.log("getOrderInLocalStorage.products:",getOrderInLocalStorage.products)
+
 for (let i = 0; i < getOrderInLocalStorage.products.length; i++) {
-    console.log(getOrderInLocalStorage)
+    console.log("getOrderInLocalStorage:",getOrderInLocalStorage)
 
     // Récupére le nombre de produit du LS:
     let quantity = productLocalStorage[i].quantityProduct
     let price = getOrderInLocalStorage.products[i].price
-    console.log(quantity)
+    console.log("quantity",quantity)
+    console.log("getOrderInLocalStorage:", getOrderInLocalStorage)
+    console.log("price:", price)
 
     // Multiplie le tout:
     let cumulPrice = price * quantity
@@ -111,7 +116,7 @@ for (let i = 0; i < getOrderInLocalStorage.products.length; i++) {
     // remove le product
     localStorage.removeItem("product")
 }
-displayPriceTotal.innerHTML = totalamount / 100 + '€';
+displayPriceTotal.innerHTML = totalamount  + '€';
 
 ///////////////////////////////////////////////////////////
 // Séparation :

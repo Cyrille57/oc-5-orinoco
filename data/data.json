@@ -1,0 +1,42 @@
+[
+    {
+      "_id": "1",
+      "imageUrl": "../../front/assets/images/teddy_1.jpg",
+      "name": "Norbert",
+      "description": "Un ours en peluche doux et câlin.",
+      "price": 29.99,
+      "colors": ["Tan", "Chocolate", "Black", "White"]
+    },
+    {
+      "_id": "2",
+      "imageUrl": "../../front/assets/images/teddy_2.jpg",
+      "name": "Arnold",
+      "description": "Un ours en peluche tout mignon.",
+      "price": 34.99,
+      "colors": ["Pale brown", "Dark brown", "White"]
+    },
+    {
+      "_id": "3",
+      "imageUrl": "../../front/assets/images/teddy_3.jpg",
+      "name": "Lenny and Carl",
+      "description": "Un grand ours en peluche parfait pour les câlins, avec son bébé.",
+      "price": 49.99,
+      "colors": ["Brown", "Black", "White"]
+    },
+    {
+      "_id": "4",
+      "imageUrl": "../../front/assets/images/teddy_4.jpg",
+      "name": "Gustav",
+      "description": "Un petit ours d en peluche décoiffé avec un cœur.",
+      "price": 19.99,
+      "colors": ["Brown", "Blue", "Pink"]
+    },
+    {
+      "_id": "5",
+      "imageUrl": "../../front/assets/images/teddy_5.jpg",
+      "name": "Garfunkel",
+      "description": "Un petit ours en peluche mignon.",
+      "price": 24.99,
+      "colors": ["Beige", "Tan", "Chocolate"]
+    }
+  ]

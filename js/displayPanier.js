@@ -6,7 +6,7 @@
 // 1) ////////////////////////////////////////////////////////
 // Récupére les produit dans localStorager: //////////////////
 let productLocalStorage = JSON.parse(localStorage.getItem("product"))
-console.log(productLocalStorage)
+console.log("productLocalStorage:",productLocalStorage)
 //réponse : tableau des objets
 //console.log(productLocalStorage.length)
 //réponse : 3
@@ -23,16 +23,19 @@ function getId(productLocalStorage) {
     for (var i = 0; i < productLocalStorage.length; i++) {
 
         let idProductPanier = productLocalStorage[i].idProduct
-        console.log(idProductPanier)
+        console.log("idProductPanier",idProductPanier)
         // Réponse: 1 seul id par produit
 
         // Concaténe l'url de l'API avec l'id récupéré: ///////////////
-        const url = "https://orinoco-oc-5.herokuapp.com/api/teddies";
-        const urlProduct = url + "/" + idProductPanier;
-        console.log(urlProduct)
+        //const url = "../../front/data/data.json";
+        //const urlProduct = url + "/" + idProductPanier;
+        //console.log(urlProduct)
         // Réponse http://localhost:3000/api/teddies/5beaaa8f1c9d440000a57d95
 
-        takeProductInPanier(urlProduct, productLocalStorage[i])
+        const url = "../../front/data/data.json";
+        console.log(url);
+
+        takeProductInPanier(url, idProductPanier, productLocalStorage[i])
     }
 }
 getId(productLocalStorage)
@@ -40,38 +43,68 @@ getId(productLocalStorage)
 
 // 3) /////////////////////////////////////////////////////////
 // XMLHttpRequest se connecte avec l'url et récupére les données:/
-async function takeProductInPanier(urlProduct, productLocalStorage) {
-    console.log(urlProduct)
+// async function takeProductInPanier(urlProduct, productLocalStorage) {
+//     console.log(urlProduct)
+//     // Réponse http://localhost:3000/api/teddies/5beaaa8f1c9d440000a57d95
+
+//     // Creer un nouvel objet Ajax de type XMLHttpRequest:
+//     let xhr = new XMLHttpRequest();
+
+//     // Détecte de la requête:
+//     xhr.onreadystatechange = function () {
+//         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+//             // Envoie terminé et contenu bien recue et convertit en Json:
+//             var productData = JSON.parse(this.responseText);
+//             console.log(productData);
+
+//             // envoie le productData a la fonction displayPanier:
+//             displayPanier(productData, productLocalStorage)
+//             countArticle(productLocalStorage.quantityProduct)
+//             totalPrice(productLocalStorage.quantityProduct * productData.price)
+//             sendOrder(productData)
+
+//         } else if (this.readyState == XMLHttpRequest.DONE && this.status == 500) {
+//             console.log("Erreur 500");
+//         }
+//     };
+
+//     // Ouvre la connexion en précisant la méthode:
+//     xhr.open("GET", urlProduct, true);
+
+//     // Envoie la requête:
+//     xhr.send();
+// }
+
+// Fonction pour récupérer les données du produit spécifique
+async function takeProductInPanier(url, idProductPanier, productLocalStorage) {
+    console.log(url);
     // Réponse http://localhost:3000/api/teddies/5beaaa8f1c9d440000a57d95
 
-    // Creer un nouvel objet Ajax de type XMLHttpRequest:
-    let xhr = new XMLHttpRequest();
+    try {
+        let response = await fetch(url);
+        if (response.ok) {
+            let result2 = await response.json();
+            console.log('Données:', result2);
 
-    // Détecte de la requête:
-    xhr.onreadystatechange = function () {
-        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-            // Envoie terminé et contenu bien recue et convertit en Json:
-            var productData = JSON.parse(this.responseText);
-            console.log(productData);
-
-            // envoie le productData a la fonction displayPanier:
-            displayPanier(productData, productLocalStorage)
-            countArticle(productLocalStorage.quantityProduct)
-            totalPrice(productLocalStorage.quantityProduct * productData.price)
-            sendOrder(productData)
-
-        } else if (this.readyState == XMLHttpRequest.DONE && this.status == 500) {
-            console.log("Erreur 500");
+            // Trouver le produit spécifique par ID
+            let productData = result2.find(item => item._id === idProductPanier);
+            if (productData) {
+                console.log('Produit:', productData);
+                // Envoie le productData à la fonction displayPanier
+                displayPanier(productData, productLocalStorage);
+                countArticle(productLocalStorage.quantityProduct);
+                totalPrice(productLocalStorage.quantityProduct * productData.price);
+                sendOrder(productData);
+            } else {
+                console.log("Produit non trouvé");
+            }
+        } else {
+            console.log("Erreur " + response.status);
         }
-    };
-
-    // Ouvre la connexion en précisant la méthode:
-    xhr.open("GET", urlProduct, true);
-
-    // Envoie la requête:
-    xhr.send();
+    } catch (error) {
+        console.log("Erreur de connexion : ", error);
+    }
 }
-
 
 // 4) ////////////////////////////////////////////////////////
 // Affichage html ////////////////////////////////////////////
@@ -463,10 +496,10 @@ function displayPanier(productData, productLocalStorage) {
     //console.log(productData.name)
 
     //Récupére le prix du produit:
-    divPrice.innerHTML = productData.price * productLocalStorage.quantityProduct /100 + " €"
+    divPrice.innerHTML = productData.price * productLocalStorage.quantityProduct  + " €"
     //console.log(divPrice.innerHTML)
 
-    divUnitPrice.innerHTML = productData.price /100 + " €"
+    divUnitPrice.innerHTML = productData.price  + " €"
 
     ///////////////////////////////////////////////////////////
     // Ecoute les +,- et * : //////////////////////////////////
@@ -586,34 +619,25 @@ function modifyQuantity(idProduct, nQuantity) {
 ///////////////////////////////////////////////////////////
 // Modifie le prix en fonction de la quantité: ////////////
 function modifyPrice(idProduct, getValue) {
+    console.log(idProduct);
+    console.log(getValue);
 
+    // Récupère la valeur de l'élément et l'initialise avec parseFloat pour conserver les décimales
+    let getPrice = parseFloat(document.getElementById('unitPrice_' + idProduct).innerHTML);
+    console.log(getPrice);
 
-    console.log(idProduct)
-    // Réponse: id
-    console.log(getValue)
-    // Réponse: 2
+    // Calcule le nouveau prix
+    let newPrice = getValue * getPrice;
+    console.log(newPrice);
 
-    // Récupére la valeur de l'element et l'initialise:
-    let getPrice = parseInt(document.getElementById('unitPrice_' + idProduct).innerHTML)
-    console.log(getPrice)
-    // resort le prix unitaire de - ou + seléctionner
+    // Récupère la valeur de l'élément et l'initialise
+    let getNewPrice = document.getElementById('price_' + idProduct);
+    console.log(getNewPrice);
 
-    //getPrice = getValue * getPrice
-    let newPrice = getValue * getPrice
-    console.log(newPrice)
+    // Met à jour le sous-total avec le nouveau prix, en conservant les décimales
+    getNewPrice.innerHTML = newPrice.toFixed(2) + " €";
 
-    // resort le montant de la quantité fois le prix unitaires
-
-    // Récupére la valeur de l'element et l'initialise:
-    let getNewPrice = document.getElementById('price_' + idProduct)
-    console.log(getNewPrice)
-    // resort le sous total de la ligne du + ou -
-    getNewPrice.innerHTML = parseInt(newPrice) + " €"
-
-
-    console.log(newPrice)
-
-
+    console.log(newPrice);
 }
 
 ///////////////////////////////////////////////////////////
@@ -728,13 +752,18 @@ function countArticle(quantityProduct) {
 // Affiche le Prix total: /////////////////////////////////
 
 function totalPrice(price, idProduct) {
+    console.log("price:", price);
+    // Sélectionne où l'on va afficher le prix total:
+    let someTotale = document.getElementById('total');
+    //console.log("someTotale:", someTotale);
 
-    // Selectionne où l'on vas afficher le prix total:
-    let someTotale = document.getElementById('total')
-    //console.log(someTotale)
+    // Convertir le contenu actuel en nombre et ajouter le nouveau prix
+    let currentTotal = parseFloat(someTotale.innerHTML.replace(' €', '')) || 0;
+    let newTotal = currentTotal + price;
 
-    let displayTotalPrice = someTotale.innerHTML = parseInt(someTotale.innerHTML) + price / 100 + " €"
-
+    // Afficher le total avec deux chiffres après la virgule
+    let displayTotalPrice = someTotale.innerHTML = newTotal.toFixed(2) + " €";
+    console.log("displayTotalPrice:", displayTotalPrice);
 }
 
 
@@ -1119,7 +1148,7 @@ function sendOrder(displayCount) {
 
             "products": id
         }
-        console.log(orderTeddies)
+        console.log("orderTeddies:",orderTeddies)
 
         // Vérification saisie utilisateur
 
@@ -1251,7 +1280,8 @@ function sendOrder(displayCount) {
 
             // Envoie sur le serveur avec la méthode fetch
             // Variable contenant l'adresse du serveur
-            const urlPost = 'https://orinoco-oc-5.herokuapp.com/api/teddies/order'
+            const urlPost = 'http://localhost:3000/api/teddies/order'
+            // http://127.0.0.1:5500/front/panier.htmlf
 
             // Objet contenant les options en second paramétre de fetch:
             var myInit = {
@@ -1265,11 +1295,19 @@ function sendOrder(displayCount) {
             };
 
             // Fetch à laquelle on donne en paramétres l'url et options:
+            console.log('Order Teddies:', orderTeddies);
             fetch(urlPost, myInit)
-                .then(response => response.json())
+            .then(response => {
+                console.log('Response:', response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
                 // Quand la promesse est tenue, elle est parsée au format Json
                 .then(json_object => {
                     // Quand la promesse est tenue, crée une variable qui contient l'objet:
+                    console.log('JSON Object:', json_object);
                     let getOrder = json_object
 
                     // Crée la clef, convertit l'objet en chaine de caractére et l'envoie dans localStorage:
@@ -1288,3 +1326,42 @@ function sendOrder(displayCount) {
     })
 }
 sendOrder()
+
+// Si tous les inputs vérifiés sont validés, envoie l'objet dans localStorage:
+// if (verifyFirstName() && verifyLastName() && verifyAddress() && verifyCity() && verifyEmail() /*&& verifyCodeZip()*/ ) {
+
+//     // Crée la clef, convertit l'objet en chaîne de caractères et l'envoie dans localStorage:
+//     localStorage.setItem("orderTeddies", JSON.stringify(orderTeddies));
+
+//     // Simule l'envoi au serveur en utilisant une fonction locale
+//     simulateServerRequest(orderTeddies);
+// } else {
+//     // Gérer les erreurs de validation ici
+// }
+
+// // Fonction pour simuler l'envoi des données au serveur
+// function simulateServerRequest(orderTeddies) {
+//     // Simule un délai de traitement
+//     setTimeout(() => {
+//         // Crée une réponse simulée
+//         let simulatedResponse = {
+//             orderId: "123456789",
+//             products: orderTeddies.products,
+//             contact: orderTeddies.contact,
+//             totalPrice: orderTeddies.totalPrice
+//         };
+
+//         // Crée la clef, convertit l'objet en chaîne de caractères et l'envoie dans localStorage:
+//         localStorage.setItem("getOrder", JSON.stringify(simulatedResponse));
+
+//         // Supprime orderTeddies
+//         localStorage.removeItem("orderTeddies");
+
+//         // Va à la page de confirmation
+//         window.location = "confirmation.html";
+//     }, 1000); // Simule un délai de 1 seconde
+// }
+//     })
+// }
+// // Appelle la fonction sendOrder
+// sendOrder();

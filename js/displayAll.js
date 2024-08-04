@@ -7,40 +7,73 @@
 // XMLHttpRequest se connecte et récupére les données:
 
 // Déclaration de la variable contenant l'url:
-const url = "https://orinoco-oc-5.herokuapp.com/api/teddies";
+//const url = "../data/data.json";
 
 // Création de la fonction qui se connecte:
+// async function connect(url) {
+
+//   // Creer un nouvel objet Ajax de type XMLHttpRequest:
+//   let xhr = new XMLHttpRequest()
+
+//   xhr.onreadystatechange = function () {
+//     // Détecte l'état de la requête:
+//     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+
+//       // Envoie terminé, contenu récupéré et convertit en Json:
+//       var result = JSON.parse(this.responseText)
+//       //console.log(result)
+//       // Réponse: retourne le tableau avec les produits
+
+//       // envoie le result à la fonction display:
+//       displayAll(result)
+
+//     } else if (this.readyState == XMLHttpRequest.DONE && this.status == 500) {
+//       // Si erreur 500 affiche dans console:
+//       console.log("Erreur 500")
+//     }
+//   }
+
+//   // Ouvre la connexion en précisant la méthode:
+//   xhr.open("GET", url, true)
+
+//   // Envoie la requête:
+//   xhr.send()
+// }
+// connect(url)
+
+// Déclaration de la variable contenant l'url:
+const url = "../../front/data/data.json";
+console.log('url:', url);
+
+// Fonction pour se connecter et récupérer les données
 async function connect(url) {
-
-  // Creer un nouvel objet Ajax de type XMLHttpRequest:
-  let xhr = new XMLHttpRequest()
-
-  xhr.onreadystatechange = function () {
-    // Détecte l'état de la requête:
-    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-
-      // Envoie terminé, contenu récupéré et convertit en Json:
-      var result = JSON.parse(this.responseText)
-      //console.log(result)
-      // Réponse: retourne le tableau avec les produits
-
-      // envoie le result à la fonction display:
-      displayAll(result)
-
-    } else if (this.readyState == XMLHttpRequest.DONE && this.status == 500) {
-      // Si erreur 500 affiche dans console:
-      console.log("Erreur 500")
+  try {
+    let response = await fetch(url);
+    if (response.ok) {
+      let result = await response.json();
+      console.log('result:', result);
+      displayAll(result);
+    } else {
+      console.log("Erreur " + response.status);
     }
+  } catch (error) {
+    console.log("Erreur de connexion : ", error);
   }
-
-  // Ouvre la connexion en précisant la méthode:
-  xhr.open("GET", url, true)
-
-  // Envoie la requête:
-  xhr.send()
 }
-connect(url)
 
+// Appel de la fonction connect
+connect(url);
+
+// Exemple de fonction displayAll pour afficher les données
+// function displayAll(data) {
+//   data.forEach(item => {
+//     console.log('Nom:', item.name);
+//     console.log('Description:', item.description);
+//     console.log('Prix:', item.price);
+//     console.log('Image URL:', item.imageUrl);
+//   });
+// }
+// result[i].name
 
 // 2) ////////////////////////////////////////////////////////
 // Fonction qui affiche les produit:
@@ -167,7 +200,8 @@ function displayAll(result) {
     divCardPicture.innerHTML = result[i].imageurl
     divCarteTitle.innerHTML = result[i].name
     pCarteDescription.innerHTML = result[i].description
-    price.innerHTML = result[i].price /100 + "€"
+    price.innerHTML = result[i].price + "€"
+    // price.innerHTML = result[i].price /100 + "€"
 
     //////////////////////////////////////////////////////////
     // Ajout des élément dans le index.html:

@@ -15,6 +15,7 @@ const getIdUrl = window.location.search;
 
 // Analyser les paramètres de la chaîne de requête:
 const getUrlParams = new URLSearchParams(getIdUrl);
+//console.log('getUrlParams:',getUrlParams )
 
 // retournera la première valeur associée au paramètre de recherche donné:
 const getId = getUrlParams.get('id')
@@ -29,47 +30,79 @@ function assemblyId(getId) {
     //réponse : 5beaaa8f1c9d440000a57d95
 
     // Déclaration des variables:
-    const url = "https://orinoco-oc-5.herokuapp.com/api/teddies";
-    const urlProduct = url + "/" + getId;
+    //const url = "https://orinoco-oc-5.herokuapp.com/api/teddies";
+    //const urlProduct = url + "/" + getId;
     //console.log(urlProduct)
     // reponse http://localhost:3000/api/teddies/5beaaa8f1c9d440000a57d95
+    const url = "../../front/data/data.json";
+    console.log('url:', url);
+    //const urlProduct = url + "/" + getId;
 
-    connect2(urlProduct);
+
+    connect2(url, getId);
 }
 assemblyId(getId);
 
 
 // 4) /////////////////////////////////////////////////////////
 // XMLHttpRequest se connecte et récupére les données de l'url précédent:
-async function connect2(urlProduct) {
-    //console.log(urlProduct)
-    // reponse http://localhost:3000/api/teddies/5beaaa8f1c9d440000a57d95
+// async function connect2(urlProduct) {
+//     //console.log(urlProduct)
+//     // reponse http://localhost:3000/api/teddies/5beaaa8f1c9d440000a57d95
 
-    // Creer un nouvel objet Ajax de type XMLHttpRequest:
-    let xhr = new XMLHttpRequest();
+//     // Creer un nouvel objet Ajax de type XMLHttpRequest:
+//     let xhr = new XMLHttpRequest();
 
-    // Détecte de la requête:
-    xhr.onreadystatechange = function () {
-        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-            // Envoie terminé et contenu bien recue et convertit en Json:
-            var result2 = JSON.parse(this.responseText);
-            //console.log(result2);
+//     // Détecte de la requête:
+//     xhr.onreadystatechange = function () {
+//         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+//             // Envoie terminé et contenu bien recue et convertit en Json:
+//             var result2 = JSON.parse(this.responseText);
+//             //console.log(result2);
 
-            // envoie le result2 a la fonction displayProduct:
-            displayProduct(result2);
-            //console.log(displayProduct)
-        } else if (this.readyState == XMLHttpRequest.DONE && this.status == 500) {
-            console.log("Erreur 500");
-            window.location.href = 'page404.html'
+//             // envoie le result2 a la fonction displayProduct:
+//             displayProduct(result2);
+//             //console.log(displayProduct)
+//         } else if (this.readyState == XMLHttpRequest.DONE && this.status == 500) {
+//             console.log("Erreur 500");
+//             window.location.href = 'page404.html'
+//         }
+//     };
+
+//     // Ouvre la connexion en précisant la méthode:
+//     xhr.open("GET", urlProduct, true);
+
+//     // Envoie la requête:
+//     xhr.send();
+// }
+
+// Fonction connect2 pour récupérer les données du produit spécifique
+async function connect2(url, getId) {
+    try {
+        let response = await fetch(url);
+        if (response.ok) {
+            let result2 = await response.json();
+            console.log('Données:', result2);
+
+            // Trouver le produit spécifique par ID
+            let product = result2.find(item => item._id === getId);
+            if (product) {
+                console.log('Produit:', product);
+                // Appelle une fonction pour afficher les détails du produit
+                displayProduct(product);
+            } else {
+                console.log("Produit non trouvé");
+                window.location.href = 'page404.html';
+            }
+        } else {
+            console.log("Erreur " + response.status);
         }
-    };
-
-    // Ouvre la connexion en précisant la méthode:
-    xhr.open("GET", urlProduct, true);
-
-    // Envoie la requête:
-    xhr.send();
+    } catch (error) {
+        console.log("Erreur de connexion : ", error);
+    }
 }
+
+
 
 
 // 5) ////////////////////////////////////////////////////////
@@ -237,7 +270,7 @@ function displayProduct(result2) {
     // Ajoute la reponse trouvé dans l'objet:
     divDescriptionTitle.innerHTML = result2.name
     divDescriptionProduct.innerHTML = result2.description
-    divDescriptionPrice.innerHTML = result2.price /100 + "€"
+    divDescriptionPrice.innerHTML = result2.price + "€"
 
     // Ajout des élément de base:
     main.appendChild(divContainer)
