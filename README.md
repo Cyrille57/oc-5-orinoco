@@ -110,10 +110,10 @@
 
 <ul>
   <li>
-    <a href="mailto:cyril_dev@outlook.fr">Mail</a>
+    <a href="mailto:cdw57@outlook.fr">Mail</a>
   </li>
 </ul>
-
+<!--
  <h2>🌐 Réseaux sociaux:</h2>
  
 <ul>
@@ -124,3 +124,4 @@
     <a href="https://twitter.com/Cyril2101">Twitter</a>
   </li>
 </ul>
+-->
