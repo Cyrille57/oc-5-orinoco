@@ -68,6 +68,16 @@
 
 <h2>👀 Rendu: </h2>
 
+<h3>Mise à jour août 2024:</h3>
+
+<p>
+  OpenClassrooms ayant mis à jour le projet en septembre 2021, l'url de l'api n'est plus d'actualité.
+</p>
+
+<p>
+  J’ai donc adapté mon projet pour qu’il reste fonctionnel. J’utilise désormais un fichier data.json qui contient les informations nécessaires. Mon objectif principal est de permettre aux utilisateurs de tester ou de visualiser le site.
+</p>
+
 <h3>🔨 Prérequis: </h3>
 
 <p>
